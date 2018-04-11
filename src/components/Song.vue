@@ -1,6 +1,6 @@
 <template>
 <div class="song">
-    <img src="https://s3-eu-west-1.amazonaws.com/prod-ecs-service-image-api-media/media/images/modified/2/bfa822a0d0d83478f357193f20888df59fb945eaa6b407ef7b328d7e8f331801.jpg" alt="">
+    <img style="width: 250px; height: 250px;" :src="image" alt="">
     <div class="meta">
         <span class="title">{{ title }}</span>
         <span class="title">{{ artist }}</span>
@@ -11,13 +11,25 @@
 
 <script>
 export default {
-  name: 'Song',
-  data () {
-    return {
-      title: 'Cry',
-      artist: 'Pink',
-      genre: 'pop'
-    }
+  name: 'SongList',
+  //the props property is given in the parent component, it enables passing down dynamic data for the child component
+  props: {
+    title: {
+        type: String,
+        required: true
+    },
+    artist: {
+        type: String,
+        required: true
+    },
+    image: {
+        type: String,
+        required: true
+    },
+    genre: {
+        type: String,
+        required: true
+    },
   }
 }
 </script>
@@ -50,6 +62,11 @@ export default {
                 display: block;
                 font-family: "Basier";
                 font-weight: 600;
+            }
+            .song-image {
+                width: 500px;
+                height: 500px;
+                
             }
         }
     }   
