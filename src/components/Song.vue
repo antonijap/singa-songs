@@ -43,14 +43,14 @@ export default {
             .title {
                 font-size: 16px;
                 letter-spacing: -0.2px;
-                font-family: "Basier";
+                font-family: "Basier Square";
                 font-weight: 600;
                 display: block;
             }
             .artist {
                 font-size: 16px;
                 letter-spacing: -0.2px;
-                font-family: "Basier";
+                font-family: "Basier Square";
                 font-weight: 500;
                 display: block;
             }
@@ -60,7 +60,7 @@ export default {
                 letter-spacing: -0.2px;
                 text-transform: uppercase;
                 display: block;
-                font-family: "Basier";
+                font-family: "Basier Square";
                 font-weight: 600;
             }
             .song-image {
