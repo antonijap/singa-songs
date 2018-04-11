@@ -1,6 +1,13 @@
 <template>
   <div id="app">
-	<DropdownButton/> 
+		<div class="row controls">
+			<div class="col-md-auto">
+					<DropdownButton/>
+			</div>
+			<div class="col-md-auto">
+					<DropdownButton/>
+			</div>
+		</div>
     <div class="row songs">
       <div class="col-3">
 		  <Song/> 
@@ -41,3 +48,9 @@
     }
 }
 </script>
+
+<style lang="scss" scoped>
+	.controls {
+		padding: 24px 0;
+	}
+</style>

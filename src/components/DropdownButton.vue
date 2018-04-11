@@ -24,5 +24,9 @@ export default {
         color: white;
         border: none;
         padding: 8px 24px;
+        font-size: 16px;
+        letter-spacing: -0.2px;
+        font-family: "Basier Square";
+        font-weight: 500;
     }   
 </style>
