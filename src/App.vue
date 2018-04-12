@@ -5,7 +5,7 @@
 					<DropdownButton :title="'Languages'" />
 			</div>
 			<div class="col-auto">
-					<DropdownButton :title="'Genres'" />
+					<!-- <DropdownButton :title="'Genres'" /> -->
 			</div>
 		</div>
 
