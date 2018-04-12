@@ -1,5 +1,23 @@
 <template>
   <div id="app">
+		<div class="row">
+			<div class="col-auto">
+					<DropdownButton :title="'Languages'" />
+			</div>
+			<div class="col-auto">
+					<!-- <DropdownButton :title="'Genres'" /> -->
+			</div>
+		</div>
+
+		<div class="row filters">
+			<div class="col-auto">
+					<SelectedFilter :title="'Finnish'" />
+			</div>
+			<div class="col-auto">
+					<SelectedFilter :title="'Pop'" />
+			</div>
+		</div>
+
   <div class="checkbox-div">
   	<!-- this iterates the languages and passes each as an prop for a FilterCheckbox component -->
 		<FilterCheckbox v-for="lang in languages" :data="lang" :key="lang.code"/>
@@ -8,6 +26,7 @@
 	  <div class="row songs">
 	  	<transition-group name="list-complete" >
 	    	<div v-if="songs.length >0" class="col-3 list-complete-item" v-for="song in songs" :key="song.id">
+
 	    	<!-- this iterates the songs and passes props for the Song component -->
 		  		<Song :title="song.name" :artist="song.artists[0].name" :image="song.image.tiny.url" :genre=	"song.genres[0].name"/> 
 	  		</div>
@@ -20,6 +39,7 @@
   import Song from './components/Song'
   import DropdownButton from './components/DropdownButton'
   import FilterCheckbox from './components/FilterCheckbox'
+	import SelectedFilter from './components/SelectedFilter'
   import Axios from 'axios'
   
   const requestSongsFromApi = (filters) => {
@@ -34,6 +54,7 @@
     components: {
       Song,
       DropdownButton,
+			SelectedFilter,
       FilterCheckbox
     },
     data () {
@@ -132,4 +153,10 @@
 			opacity: 1;
 		  transition: all 1s;
 		}
+		.filters {
+			margin-top: 1em;
+			padding-top: 1em;
+			border-top: 1px solid #333333;
+		}
 	</style>
+
