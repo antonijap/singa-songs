@@ -6,11 +6,12 @@
 	</div>
 
 	  <div class="row songs">
-	    <div v-if="songs.length >0" class="col-3" v-for="song in songs">
+	  	<transition-group name="list-complete" >
+	    	<div v-if="songs.length >0" class="col-3 list-complete-item" v-for="song in songs" :key="song.id">
 	    	<!-- this iterates the songs and passes props for the Song component -->
-		  	<Song :title="song.name" :artist="song.artists[0].name" :image="song.image.tiny.url" :genre="song.genres[0].name"/> 
-	  	</div>
-	  	<h2 v-else style="color:white;"> LOADING </h2>
+		  		<Song :title="song.name" :artist="song.artists[0].name" :image="song.image.tiny.url" :genre=	"song.genres[0].name"/> 
+	  		</div>
+	  </transition-group>
   </div>
   </div>
 </template>
@@ -106,4 +107,29 @@
 		.checkbox-div {
 			margin: 30px 0 30px 0;
 		}
-</style>
+		.col-3 {
+			  display: inline-flex;
+		}
+
+		.list-complete-item {
+			transition: all 1s;
+		}
+		.list-complete-enter{
+			transform: scaleX(0);
+		  opacity: 0;
+		  transition: all 1s;
+		}
+		.list-complete-leave-to {
+			transform: scaleX(0);
+		  opacity: 0;
+		  width: 0px;
+		  transition: all 1s;
+
+		}
+
+		
+		.list-complete-leave, list-complete-enter-to{
+			opacity: 1;
+		  transition: all 1s;
+		}
+	</style>
