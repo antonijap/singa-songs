@@ -1,12 +1,14 @@
 <template>
   <div id="app">
+	<DropdownButton :title="'Languages'" />
+	<DropdownButton :title="'Genres'" />
   <div class="checkbox-div">
   	<!-- this iterates the languages and passes each as an prop for a FilterCheckbox component -->
 		<FilterCheckbox v-for="lang in languages" :data="lang" :key="lang.code"/>
 	</div>
 
 	  <div class="row songs">
-	    <div v-if="songs.length >0" class="col-3" v-for="song in songs">
+	    <div v-if="songs.length > 0" class="col-3" v-for="song in songs">
 	    	<!-- this iterates the songs and passes props for the Song component -->
 		  	<Song :title="song.name" :artist="song.artists[0].name" :image="song.image.tiny.url" :genre="song.genres[0].name"/> 
 	  	</div>

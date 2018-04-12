@@ -1,12 +1,18 @@
 <template>
 <div class="dropdown-button">
-    <button class="btn btn-default" type="submit">Button <i class="fas fa-chevron-down"></i></button>
+    <button class="btn btn-default" type="submit">{{ title }} <i class="fas fa-chevron-down"></i></button>
 </div>
 </template>
 
 <script>
 export default {
   name: 'DropdownButton',
+  props: {
+    title: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     return {
       title: 'Cry',
