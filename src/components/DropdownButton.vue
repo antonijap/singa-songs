@@ -67,6 +67,7 @@ export default {
     .dropdown-options {
       background: white;
       padding: 24px;
+	  position: fixed;
       border-radius: 8px;
       margin-top: 8px;
       z-index: 9999;
