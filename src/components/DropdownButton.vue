@@ -2,7 +2,7 @@
 
 <div>
   <div class="dropdown-button">
-    <button @click="active = !active" class="btn btn-default" type="submit">{{ title }}
+    <button @click="active = !active" :class=" active ? 'active' : '' " class="btn btn-default" type="submit">{{ title }}
       <!-- you can dynamically bind classes as below, changing the icon depending on active data property -->
       <i class="fas" :class=" active ? 'fa-chevron-up' : 'fa-chevron-down' "></i>
     </button>
@@ -59,21 +59,37 @@ export default {
         padding: 8px 24px;
         position: relative;
     }
-	.form-group {
-		label {
-			margin-bottom: 0;
-		}
-	}
-  
-
 
     .dropdown-options {
-      background: white;
-      padding: 24px;
-	   position: absolute;
-      width: 400px;
-      border-radius: 8px;
-      margin-top: 8px;
-      z-index: 9999;
+		background: white;
+		padding: 24px;
+		position: absolute;
+		width: 400px;
+		border-radius: 8px;
+		margin-top: 8px;
+		z-index: 9999;
     }   
+
+	.fadein-enter-active {
+		animation: flip-in .5s;
+		z-index: 999;
+	}
+
+	.fadein-leave-active {
+		animation: flip-in .5s reverse;
+	}
+
+	@keyframes flip-in {
+		0% {
+			transform: rotateZ(0);
+			transform-origin: top;
+		}
+		100% {
+			transform: rotateZ(20deg);
+		}
+	}
+
+	.active {
+		background: #828282;
+	}
 </style>

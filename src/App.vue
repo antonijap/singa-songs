@@ -151,7 +151,9 @@
 
 		}
 
-		
+		#app {
+			margin-top: 3em;
+		}
 		.list-complete-leave, list-complete-enter-to{
 			opacity: 1;
 		  transition: all 1s;
