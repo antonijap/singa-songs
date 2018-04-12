@@ -1,7 +1,23 @@
 <template>
   <div id="app">
-	<DropdownButton :title="'Languages'" />
-	<DropdownButton :title="'Genres'" />
+		<div class="row">
+			<div class="col-auto">
+					<DropdownButton :title="'Languages'" />
+			</div>
+			<div class="col-auto">
+					<DropdownButton :title="'Genres'" />
+			</div>
+		</div>
+
+		<div class="row filters">
+			<div class="col-auto">
+					<SelectedFilter :title="'Finnish'" />
+			</div>
+			<div class="col-auto">
+					<SelectedFilter :title="'Pop'" />
+			</div>
+		</div>
+
   <div class="checkbox-div">
   	<!-- this iterates the languages and passes each as an prop for a FilterCheckbox component -->
 		<FilterCheckbox v-for="lang in languages" :data="lang" :key="lang.code"/>
@@ -21,6 +37,7 @@
   import Song from './components/Song'
   import DropdownButton from './components/DropdownButton'
   import FilterCheckbox from './components/FilterCheckbox'
+	import SelectedFilter from './components/SelectedFilter'
   import Axios from 'axios'
   
   const requestSongsFromApi = (filters) => {
@@ -35,6 +52,7 @@
     components: {
       Song,
       DropdownButton,
+			SelectedFilter,
       FilterCheckbox
     },
     data () {
@@ -107,5 +125,13 @@
 <style lang="scss" scoped>
 		.checkbox-div {
 			margin: 30px 0 30px 0;
+		}
+		#app {
+			margin-top: 3em;
+		}
+		.filters {
+			margin-top: 1em;
+			padding-top: 1em;
+			border-top: 1px solid #333333;
 		}
 </style>

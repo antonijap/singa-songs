@@ -2,7 +2,6 @@
 <div class="dropdown-button">
     <input type="checkbox" @click="setValue()" v-model="data.active"/>
     <p class="language-name">{{data.name}}</p>
-    
 </div>
 </template>
 
