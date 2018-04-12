@@ -37,7 +37,7 @@ export default {
         display: inline;
     }   
     .language-name {
-      color: white;
+      color: black;
       display: inline;
     }
     .dropdown-button{

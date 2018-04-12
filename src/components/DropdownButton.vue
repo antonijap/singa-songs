@@ -2,49 +2,49 @@
 
 <div>
   <div class="dropdown-button">
-    <button class="btn btn-default" type="submit">{{ title }}
-      <i class="fas fa-chevron-down"></i>
+    <button @click="active = !active" class="btn btn-default" type="submit">{{ title }}
+      <!-- you can dynamically bind classes as below, changing the icon depending on active data property -->
+      <i class="fas" :class=" active ? 'fa-chevron-up' : 'fa-chevron-down' "></i>
     </button>
   </div>
-  <div class="container">
-    <div class="row dropdown-options">
-      <div class="col col-sm-6">
-        <div class="form-group">
-          <input type="checkbox" class="form-check-input">
-          <label>Finnish</label>
-        </div>
-      </div>
-      <div class="col col-sm-6">
-        <div class="form-group">
-          <input type="checkbox" class="form-check-input">
-          <label>Swedish</label>
-        </div>
-      </div>
-      <div class="col col-sm-6">
-        <div class="form-group">
-          <input type="checkbox" class="form-check-input">
-          <label>German</label>
-        </div>
-      </div>
-      <div class="col col-sm-6">
-        <div class="form-group">
-          <input type="checkbox" class="form-check-input">
-          <label>Spanish</label>
+  <transition name="fadein">
+    <div class="container" v-if="active">
+      <div class="row dropdown-options">
+        <div class="col col-sm-6" v-for="lang in languages">
+          <div class="form-group">
+            <FilterCheckbox  :data="lang" :key="lang.code"/>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </transition>
+  
 </div>
 
 </template>
 
 <script>
+
+import FilterCheckbox from './FilterCheckbox.vue'
+
 export default {
   name: 'DropdownButton',
+  components: {
+    FilterCheckbox
+  },
   props: {
     title: {
       type: String,
       required: true
+    },
+    languages: {
+      type: Array,
+      required: true
+    }
+  },
+  data () {
+    return {
+      active: false
     }
   }
 }
@@ -64,10 +64,14 @@ export default {
 			margin-bottom: 0;
 		}
 	}
+  
+
+
     .dropdown-options {
       background: white;
       padding: 24px;
-	  position: fixed;
+	   position: absolute;
+      width: 400px;
       border-radius: 8px;
       margin-top: 8px;
       z-index: 9999;

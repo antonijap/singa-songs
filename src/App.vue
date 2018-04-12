@@ -2,7 +2,7 @@
   <div id="app">
 		<div class="row">
 			<div class="col-auto">
-					<DropdownButton :title="'Languages'" />
+					<DropdownButton :title="'Languages'" :languages="languages"/>
 			</div>
 			<div class="col-auto">
 					<!-- <DropdownButton :title="'Genres'" /> -->
@@ -20,7 +20,7 @@
 
   <div class="checkbox-div">
   	<!-- this iterates the languages and passes each as an prop for a FilterCheckbox component -->
-		<FilterCheckbox v-for="lang in languages" :data="lang" :key="lang.code"/>
+		
 	</div>
 
 	  <div class="row songs">
@@ -125,6 +125,9 @@
 }
 </script>
 <style lang="scss" scoped>
+		.songs{
+			z-index: 1;
+		}
 		.checkbox-div {
 			margin: 30px 0 30px 0;
 		}
