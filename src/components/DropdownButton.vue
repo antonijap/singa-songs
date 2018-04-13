@@ -2,9 +2,9 @@
 
 <div>
   <div class="dropdown-button">
-    <button @click="active = !active" :class=" active ? 'active' : '' " class="btn btn-default" type="submit">{{ title }}
+    <button @click="active = !active" class="btn btn-default" type="submit" v-bind:class="{ active: active }">
+	{{ title }} <i class="fas" :class=" active ? 'fa-chevron-up' : 'fa-chevron-down' "></i>
       <!-- you can dynamically bind classes as below, changing the icon depending on active data property -->
-      <i class="fas" :class=" active ? 'fa-chevron-up' : 'fa-chevron-down' "></i>
     </button>
   </div>
   <transition name="fadein">
@@ -82,11 +82,11 @@ export default {
 
 	@keyframes flip-in {
 		0% {
-			opacity: 0%;
+			opacity: 0;
 			transform: translateY(-10px)
 		}
 		100% {
-			opacity: 100%;
+			opacity: 1;
 			transform: translateY(0px)
 		}
 	}

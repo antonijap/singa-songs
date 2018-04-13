@@ -1,7 +1,6 @@
 <template>
 <div class="dropdown-button">
-    <input type="checkbox" @click="setValue()" v-model="data.active"/>
-    <p class="language-name">{{data.name}}</p>
+    <label class="language-name" ><input type="checkbox" @click="setValue()" v-model="data.active"/> {{ data.name }}</label>
 </div>
 </template>
 
