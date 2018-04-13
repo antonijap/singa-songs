@@ -11,12 +11,17 @@ export default {
     data: {
       type: Object,
       required: true
-    }
+    },
+    dataType: {
+      type: String,
+      required: true
+    },
   },
   methods: {
     setValue (){
-      this.$root.$emit("setLanguage", {
-        key: this.data.code,
+      this.$root.$emit("setFilter", {
+        type: this.dataType,
+        key: this.data.id,
         active: !this.data.active
       })
 

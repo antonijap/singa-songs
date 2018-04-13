@@ -2,7 +2,7 @@
 
 <div>
   <div class="dropdown-button">
-    <button @click="active = !active" class="btn btn-default" type="submit" v-bind:class="{ active: active }">
+    <button @click="active = !active; emitActive()" class="btn btn-default" type="submit" v-bind:class="{ active: active }">
 	{{ title }} <i class="fas" :class=" active ? 'fa-chevron-up' : 'fa-chevron-down' "></i>
       <!-- you can dynamically bind classes as below, changing the icon depending on active data property -->
     </button>
@@ -10,9 +10,9 @@
   <transition name="fadein">
     <div class="container" v-if="active">
       <div class="row dropdown-options">
-        <div class="col col-sm-6" v-for="lang in languages">
+        <div class="col col-sm-6" v-for="item in filterData">
           <div class="form-group">
-            <FilterCheckbox  :data="lang" :key="lang.code"/>
+            <FilterCheckbox  :data="item" :key="item.id" :dataType="filterDataType"/>
           </div>
         </div>
       </div>
@@ -37,14 +37,38 @@ export default {
       type: String,
       required: true
     },
-    languages: {
+    filterData: {
       type: Object,
+      required: true
+    },
+    filterDataType: {
+      type: String,
       required: true
     }
   },
   data () {
     return {
       active: false
+    }
+  },
+  // computed : {
+  //   dataType () {
+  //     console.log(this.languages , this.genres )
+  //     return this.languages | this.genres 
+  //   }
+  // },
+  created () {
+   this.$root.$on("activeDropDownChanged", (type) => {
+    //emit to other dropdown elements for active emits
+      if(type !== this.filterDataType){
+        this.active = false
+      }
+   }) 
+  },
+  methods :{
+    emitActive(){
+        //emit to other dropdown elements that a element has been activated
+       this.$root.$emit("activeDropDownChanged", this.filterDataType)
     }
   }
 }

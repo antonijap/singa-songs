@@ -1,6 +1,6 @@
 <template>
 <div class="selectedFilter">
-    <i>{{ title }} <i class="far fa-times-circle"></i></i>
+    <i>{{ dataObj.name }} <i @click="setValue()" class="far fa-times-circle"></i></i>
 </div>
 </template>
 
@@ -8,9 +8,23 @@
 export default {
   name: 'SelectedFilter',
   props: {
-    title: {
+    dataObj: {
+      type: Object,
+      required: true
+    },
+    dataType: {
       type: String,
       required: true
+    },
+  },
+   methods: {
+    setValue (){
+      this.$root.$emit("setFilter", {
+        type: this.dataType,
+        key: this.dataObj.id,
+        active: false
+      })
+
     }
   }
 }

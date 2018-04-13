@@ -2,19 +2,20 @@
   <div id="app">
 		<div class="row">
 			<div class="col-auto">
-					<DropdownButton :title="'Languages'" :languages="languages"/>
+					<DropdownButton :title="'Languages'" :filterData="languages" filterDataType="language"/>
 			</div>
 			<div class="col-auto">
-					<!-- <DropdownButton :title="'Genres'" /> -->
+					<DropdownButton :title="'Genres'" :filterData="genres" filterDataType="genre"/>
 			</div>
 		</div>
 
 		<div class="row filters">
 			<div class="col-auto">
-					<SelectedFilter :title="'Finnish'" />
+					<SelectedFilter  v-for="lang in selectedLanguages" :dataObj="lang" :key="lang.id" @click="deleteFilter('language', lang.id)" dataType="language"/>
+
 			</div>
 			<div class="col-auto">
-					<SelectedFilter :title="'Pop'" />
+					<SelectedFilter  v-for="genre in selectedGenres" :dataObj="genre" :key="genre.id" dataType="genre"/>
 			</div>
 		</div>
 
@@ -24,13 +25,11 @@
 	</div>
 
 	  <div class="row songs">
-	  	<transition-group name="list-complete" >
 	    	<div v-if="songs.length >0" class="col-3 list-complete-item" v-for="song in songs" :key="song.id">
 
 	    	<!-- this iterates the songs and passes props for the Song component -->
-		  		<Song :title="song.name" :artist="song.artists[0].name" :image="song.image.tiny.url" :genre=	"song.genres[0].name"/> 
+		  		<Song :title="song.name" :artist="song.artists[0].name" :image="song.image.tiny.url" :genre=	"song.genres.map(genre => genre.name).join(', ')"/> 
 	  		</div>
-	  </transition-group>
   </div>
   </div>
 </template>
@@ -43,11 +42,17 @@
   import Axios from 'axios'
   
   const requestSongsFromApi = (filters) => {
-  		//fancy javascript one liners
-				var filtersAsString = Object.keys(filters).map(filter => filter+"="+filters[filter].join(",")).join("&")
-				//make the axios request with the given parameters
-				return Axios.get(`https://api.sin.ga/v1.4/songs/?page_size=20&${filtersAsString}`)
-    	}
+	//fancy javascript one liners
+		var filtersAsString = Object.keys(filters).map(filter => filter+"="+filters[filter].join(",")).join("&")
+		//make the axios request with the given parameters
+		return Axios.get(`https://api.sin.ga/v1.4/songs/?page_size=20&${filtersAsString}`)
+	}
+	const getGenres = () => {
+	//fancy javascript one liners
+		
+		//make the axios request with the given parameters
+		return Axios.get(`https://api.sin.ga/v1.4/genres/?page_size=100`)
+	}
   
   export default {
     name: 'App',
@@ -62,56 +67,65 @@
     	return {
     		songs: [],
     		filters: {
+    			genre: [],
     			language:[],
     			sort: ["top"]
     		},
     		languages: {
     			"en":{	
-    				code:"en",
+    				id:"en",
     				name: "English",
-    				active: true
+    				active: false
     			},
     			"fi":{
-    				code:"fi",
+    				id:"fi",
     				name: "Finnish",
     				active: false
     			},
     			"sv":{	
-    				code:"sv",
+    				id:"sv",
     				name: "Swedish",
     				active: false
     			},
     			"de":{
-    				code:"de",
+    				id:"de",
     				name: "German",
     				active: false
     			},
     			"he":{
-    				code:"he",
+    				id:"he",
     				name: "Hebrew",
     				active: false
     			},
     			"it":{
-    				code:"it",
+    				id:"it",
     				name: "Italian",
     				active: false
     			},
     			"fr":{
-    				code:"fr",
+    				id:"fr",
     				name: "French",
     				active: false
     			},
     			"ko":{
-    				code:"ko",
+    				id:"ko",
     				name: "Korean",
     				active: false
     			}
-    		}
-    			
+    		},
+    		genres : {}		
   		}
     },
    beforeCreate () {
-			
+			getGenres().then(res => {
+				res.data.results.forEach(genre => {
+					this.$set(this.genres,genre.id,  {
+						id: genre.id,
+						name: genre.name,
+						active: false
+					})
+				})
+			})
   	},
   	created () {
   		requestSongsFromApi(this.filters).then(res=>{
@@ -119,12 +133,13 @@
     	})
 
   		//a listener is set for the $emit event in FilterCheckbox.vue
-  		this.$root.$on("setLanguage", (value) => {
+  		this.$root.$on("setFilter", (value) => {
+  			const obj = value.type === "genre" ? this.genres : this.languages
   			//set the value of language object that was emitted
-  			this.languages[value.key].active  = value.active
+  			obj[value.key].active  = value.active
 
-  			//maps the objects to a array of language codes 
-  			this.filters.language = Object.keys(this.languages).map(lang=>this.languages[lang]).filter(lang=>lang.active).map(lang => lang.code)
+  			//maps the objects to a array of language ids 
+  			this.filters[value.type] = Object.keys(obj).map(lang=>obj[lang]).filter(lang=>lang.active).map(lang => lang.id)
 
   			//do new request
   			requestSongsFromApi(this.filters).then(res=>{
@@ -134,11 +149,29 @@
 
 
   	},
+  	computed: {
+  		selectedGenres() {
+  			console.log(this.genres)
+  			console.log(Object.keys(this.genres).map(key => this.genres[key]).filter(genre => genre.active))
+  			return Object.keys(this.genres).map(key => this.genres[key]).filter(genre => genre.active)
+  		},
+  		selectedLanguages () {
+  			return Object.keys(this.languages).map(key => this.languages[key]).filter(language => language.active)
+  		},
+
+  	},
     methods: {
     	requestSongs () {
 				requestSongsFromApi(this.filters).then(res=>{
 		    		this.songs = res.data.results
 		    	})
+    	},
+    	deleteFilter(type, id) {
+    		console.log("HERE")
+    		const obj = value.type === "genre" ? this.genres : this.languages
+  			//set the value of language object that was emitted
+  			obj[id].active  = false
+
     	}
 
     }
