@@ -38,7 +38,7 @@ export default {
       required: true
     },
     languages: {
-      type: Array,
+      type: Object,
       required: true
     }
   },
@@ -95,3 +95,4 @@ export default {
 		background: #828282;
 	}
 </style>
+

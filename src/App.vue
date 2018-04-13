@@ -85,6 +85,26 @@
     				code:"de",
     				name: "German",
     				active: false
+    			},
+    			"he":{
+    				code:"he",
+    				name: "Hebrew",
+    				active: false
+    			},
+    			"it":{
+    				code:"it",
+    				name: "Italian",
+    				active: false
+    			},
+    			"fr":{
+    				code:"fr",
+    				name: "French",
+    				active: false
+    			},
+    			"ko":{
+    				code:"ko",
+    				name: "Korean",
+    				active: false
     			}
     		}
     			
