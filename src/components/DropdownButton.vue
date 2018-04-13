@@ -71,21 +71,23 @@ export default {
     }   
 
 	.fadein-enter-active {
-		animation: flip-in .5s;
+		animation: flip-in .2s;
 		z-index: 999;
 	}
 
 	.fadein-leave-active {
-		animation: flip-in .5s reverse;
+		animation: flip-in .2s reverse;
+		z-index: 999;
 	}
 
 	@keyframes flip-in {
 		0% {
-			transform: rotateZ(0);
-			transform-origin: top;
+			opacity: 0%;
+			transform: translateY(-10px)
 		}
 		100% {
-			transform: rotateZ(20deg);
+			opacity: 100%;
+			transform: translateY(0px)
 		}
 	}
 
