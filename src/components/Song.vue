@@ -1,6 +1,6 @@
 <template>
 <div class="song">
-    <img style="width: 250px; height: 250px;" :src="image" alt="">
+    <img :src="image" alt="">
     <div class="meta">
         <span class="title">{{ title }}</span>
         <span class="title">{{ artist }}</span>
@@ -37,36 +37,26 @@ export default {
 <style lang="scss" scoped>
     .song {
         background: black;
-        color: white;
+        img {
+            width: 100%;
+            height: auto;
+        }
         .meta {
-            padding: 8px;
+            padding: 8px 0;
             .title {
-                font-size: 16px;
-                letter-spacing: -0.2px;
-                font-family: "Basier Square";
                 font-weight: 600;
                 display: block;
             }
             .artist {
-                font-size: 16px;
-                letter-spacing: -0.2px;
-                font-family: "Basier Square";
                 font-weight: 500;
                 display: block;
             }
             .genre {
                 color: #333333;
                 font-size: 12px;
-                letter-spacing: -0.2px;
                 text-transform: uppercase;
                 display: block;
-                font-family: "Basier Square";
                 font-weight: 600;
-            }
-            .song-image {
-                width: 500px;
-                height: 500px;
-                
             }
         }
     }   

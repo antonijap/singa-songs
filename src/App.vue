@@ -25,10 +25,10 @@
 	</div>
 
 	  <div class="row songs">
-	    	<div v-if="songs.length >0" class="col-3 list-complete-item" v-for="song in songs" :key="song.id">
+	    	<div v-if="songs.length >0" class="col-6 col-sm-4 col-md-3 col-lg-2 list-complete-item" v-for="song in songs" :key="song.id">
 
 	    	<!-- this iterates the songs and passes props for the Song component -->
-		  		<Song :title="song.name" :artist="song.artists[0].name" :image="song.image.tiny.url" :genre=	"song.genres.map(genre => genre.name).join(', ')"/> 
+		  		<Song :title="song.name" :artist="song.artists[0].name" :image="song.image.small.url" :genre=	"song.genres.map(genre => genre.name).join(', ')"/> 
 	  		</div>
   </div>
   </div>
@@ -184,32 +184,26 @@
 		.checkbox-div {
 			margin: 30px 0 30px 0;
 		}
-		.col-3 {
-			  display: inline-flex;
-		}
-
 		.list-complete-item {
-			transition: all 1s;
+			transition: transform 1s;
 		}
 		.list-complete-enter{
 			transform: scaleX(0);
 		  opacity: 0;
-		  transition: all 1s;
+		  transition: transform 1s, opacity 1s;
 		}
 		.list-complete-leave-to {
 			transform: scaleX(0);
 		  opacity: 0;
 		  width: 0px;
-		  transition: all 1s;
-
+		  transition: transform 1s, opacity 1s;
 		}
-
 		#app {
 			margin-top: 3em;
 		}
 		.list-complete-leave, list-complete-enter-to{
 			opacity: 1;
-		  transition: all 1s;
+		  transition: transform 1s, opacity 1s;
 		}
 		.filters {
 			margin-top: 1em;

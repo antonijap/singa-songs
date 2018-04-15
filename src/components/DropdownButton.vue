@@ -8,7 +8,7 @@
     </button>
   </div>
   <transition name="fadein">
-    <div class="container" v-if="active">
+    <div class="container" v-if="active" style="position: relative;" >
       <div class="row dropdown-options">
         <div class="col col-sm-6" v-for="item in filterData">
           <div class="form-group">
@@ -76,22 +76,22 @@ export default {
 
 <style lang="scss" scoped>
     .btn {
-        border-radius: 100px;
-        background: #333333;
-        color: white;
-        border: none;
-        padding: 8px 24px;
-        position: relative;
+      border-radius: 100px;
+      background: #333333;
+      color: white;
+      border: none;
+      padding: 8px 24px;
+      position: relative;
     }
 
     .dropdown-options {
-		background: white;
-		padding: 24px;
-		position: absolute;
-		width: 400px;
-		border-radius: 8px;
-		margin-top: 8px;
-		z-index: 9999;
+      background: white;
+      padding: 24px;
+      position: absolute;
+      width: 400px;
+      border-radius: 8px;
+      margin-top: 8px;
+      z-index: 9999;
     }   
 
 	.fadein-enter-active {
