@@ -23,8 +23,9 @@
   	<!-- this iterates the languages and passes each as an prop for a FilterCheckbox component -->
 		
 	</div>
-
-	  <div class="row songs">
+		<LoadingSpinner v-if="loading"/>
+		
+	  <div v-else class="row songs">
 	    	<div v-if="songs.length >0" class="col-6 col-sm-4 col-md-3 col-lg-2 list-complete-item" v-for="song in songs" :key="song.id">
 
 	    	<!-- this iterates the songs and passes props for the Song component -->
@@ -39,6 +40,7 @@
   import DropdownButton from './components/DropdownButton'
   import FilterCheckbox from './components/FilterCheckbox'
 	import SelectedFilter from './components/SelectedFilter'
+	import LoadingSpinner from './components/LoadingSpinner'
   import Axios from 'axios'
   
   const requestSongsFromApi = (filters) => {
@@ -60,11 +62,13 @@
       Song,
       DropdownButton,
 			SelectedFilter,
-      FilterCheckbox
+      FilterCheckbox,
+      LoadingSpinner
     },
     data () {
 
     	return {
+    		loading: false,
     		songs: [],
     		filters: {
     			genre: [],
@@ -142,8 +146,10 @@
   			this.filters[value.type] = Object.keys(obj).map(lang=>obj[lang]).filter(lang=>lang.active).map(lang => lang.id)
 
   			//do new request
+  			this.loading = true
   			requestSongsFromApi(this.filters).then(res=>{
 		  		this.songs = res.data.results
+		  		this.loading = false
 		  	})
   		})
 
@@ -151,8 +157,6 @@
   	},
   	computed: {
   		selectedGenres() {
-  			console.log(this.genres)
-  			console.log(Object.keys(this.genres).map(key => this.genres[key]).filter(genre => genre.active))
   			return Object.keys(this.genres).map(key => this.genres[key]).filter(genre => genre.active)
   		},
   		selectedLanguages () {
@@ -162,12 +166,13 @@
   	},
     methods: {
     	requestSongs () {
+    		this.loading = true
 				requestSongsFromApi(this.filters).then(res=>{
 		    		this.songs = res.data.results
+		    		this.loading = false
 		    	})
     	},
     	deleteFilter(type, id) {
-    		console.log("HERE")
     		const obj = value.type === "genre" ? this.genres : this.languages
   			//set the value of language object that was emitted
   			obj[id].active  = false
