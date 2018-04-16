@@ -33,12 +33,16 @@ export default {
 <style lang="scss" scoped>
     .selectedFilter {
         color: white;
+        display: inline-block;
         i {
             color: white;
             font-style: normal;
         }
         .fa-times-circle {
             color: white;
+        }
+        &:not(:last-child) {
+          margin-right: 16px;
         }
     }
 </style>
