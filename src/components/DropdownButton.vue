@@ -1,8 +1,8 @@
 <template>
 
-<div>
+<div v-click-outside="setUnactive">
   <div class="dropdown-button">
-    <button @click="active = !active; emitActive()" class="btn btn-default" type="submit" v-bind:class="{ active: active }">
+    <button @click="active = !active; emitActive()"  class="btn btn-default" type="submit" v-bind:class="{ active: active }">
 	{{ title }} <i class="fas" :class=" active ? 'fa-chevron-up' : 'fa-chevron-down' "></i>
       <!-- you can dynamically bind classes as below, changing the icon depending on active data property -->
     </button>
@@ -69,8 +69,28 @@ export default {
     emitActive(){
         //emit to other dropdown elements that a element has been activated
        this.$root.$emit("activeDropDownChanged", this.filterDataType)
+    },
+    setUnactive() {
+      this.active = false
     }
-  }
+  },
+  directives: {
+      
+      'click-outside': {
+
+        bind: function (el, binding, vnode) {
+          el.event = function (event) {
+            if (!(el == event.target || el.contains(event.target))) {
+              vnode.context[binding.expression](event);
+            }
+          };
+          document.body.addEventListener('click', el.event)
+        },
+        unbind: function (el) {
+          document.body.removeEventListener('click', el.event)
+        }
+      }
+    }
 }
 </script>
 
