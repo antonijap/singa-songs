@@ -3,14 +3,14 @@
 <div v-click-outside="setUnactive">
   <div class="dropdown-button">
     <button @click="active = !active; emitActive()"  class="btn btn-default" type="submit" v-bind:class="{ active: active }">
-	{{ title }} <i class="fas" :class=" active ? 'fa-chevron-up' : 'fa-chevron-down' "></i>
+	  <span> {{ title }} </span> <i class="fas" :class=" active ? 'fa-chevron-up' : 'fa-chevron-down' "></i>
       <!-- you can dynamically bind classes as below, changing the icon depending on active data property -->
     </button>
   </div>
   <transition name="fadein">
     <div class="container" v-if="active" style="position: relative;" >
       <div class="row dropdown-options">
-        <div class="col col-sm-6" v-for="item in filterData">
+        <div class="col-4" v-for="item in filterData">
           <div class="form-group">
             <FilterCheckbox  :data="item" :key="item.id" :dataType="filterDataType"/>
           </div>
@@ -100,20 +100,28 @@ export default {
       background: #333333;
       color: white;
       border: none;
-      padding: 8px 24px;
+      padding: 8px 16px;
       position: relative;
+      span {
+        padding-left: 8px;
+      }
+      i {
+        padding: 0 8px;
+      }
     }
 
     .dropdown-options {
       background: white;
-      padding: 24px;
       position: absolute;
-      width: 400px;
+      width: 385px;
       border-radius: 8px;
       margin-top: 8px;
       z-index: 9999;
+      padding: 12px;
     }   
-
+  .form-group {
+    margin-bottom: 0;
+  }
 	.fadein-enter-active {
 		animation: flip-in .2s;
 		z-index: 999;
@@ -126,9 +134,9 @@ export default {
 
 	@keyframes flip-in {
 		0% {
-			opacity: 0;
+      opacity: 0;
 			transform: translateY(-10px)
-		}
+    }
 		100% {
 			opacity: 1;
 			transform: translateY(0px)

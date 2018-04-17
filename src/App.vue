@@ -2,20 +2,18 @@
   <div id="app">
 		<div class="row">
 			<div class="col-auto">
-					<DropdownButton :title="'Languages'" :filterData="languages" filterDataType="language"/>
+				<DropdownButton :title="'Languages'" :filterData="languages" filterDataType="language"/>
 			</div>
 			<div class="col-auto">
-					<DropdownButton :title="'Genres'" :filterData="genres" filterDataType="genre"/>
+				<DropdownButton :title="'Genres'" :filterData="genres" filterDataType="genre"/>
 			</div>
 		</div>
 
 		<div class="row filters">
+			<div class="col-12"><div class="separator"></div></div>
 			<div class="col-auto">
-					<SelectedFilter  v-for="lang in selectedLanguages" :dataObj="lang" :key="lang.id" @click="deleteFilter('language', lang.id)" dataType="language"/>
-
-			</div>
-			<div class="col-auto">
-					<SelectedFilter  v-for="genre in selectedGenres" :dataObj="genre" :key="genre.id" dataType="genre"/>
+				<SelectedFilter  v-for="lang in selectedLanguages" :dataObj="lang" :key="lang.id" @click="deleteFilter('language', lang.id)" dataType="language"/>
+				<SelectedFilter  v-for="genre in selectedGenres" :dataObj="genre" :key="genre.id" dataType="genre"/>
 			</div>
 		</div>
 
@@ -47,7 +45,7 @@
 	//fancy javascript one liners
 		var filtersAsString = Object.keys(filters).map(filter => filter+"="+filters[filter].join(",")).join("&")
 		//make the axios request with the given parameters
-		return Axios.get(`https://api.sin.ga/v1.4/songs/?page_size=20&${filtersAsString}`)
+		return Axios.get(`https://api.sin.ga/v1.4/songs/?page_size=24&${filtersAsString}`)
 	}
 	const getGenres = () => {
 	//fancy javascript one liners
@@ -61,7 +59,7 @@
     components: {
       Song,
       DropdownButton,
-			SelectedFilter,
+		SelectedFilter,
       FilterCheckbox,
       LoadingSpinner
     },
@@ -114,6 +112,11 @@
     			"ko":{
     				id:"ko",
     				name: "Korean",
+    				active: false
+    			},
+				"es":{
+    				id:"es",
+    				name: "Spanish",
     				active: false
     			}
     		},
@@ -212,8 +215,10 @@
 		}
 		.filters {
 			margin-top: 1em;
-			padding-top: 1em;
+		}
+		.separator {
 			border-top: 1px solid #333333;
+			padding-top: 1em;
 		}
 	</style>
 

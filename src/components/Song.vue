@@ -40,6 +40,7 @@ export default {
         img {
             width: 100%;
             height: auto;
+            border-radius: 4px;
         }
         .meta {
             padding: 8px 0;

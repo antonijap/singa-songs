@@ -1,6 +1,7 @@
 <template>
 <div class="dropdown-button">
-    <label class="language-name" ><input type="checkbox" @click="setValue()" v-model="data.active"/> {{ data.name }}</label>
+    <input type="checkbox" v-model="data.active"/>
+    <label class="language-name" @click="setValue()"> {{ data.name }}</label>
 </div>
 </template>
 
@@ -40,12 +41,36 @@ export default {
         padding: 8px 24px;
         display: inline;
     }   
-    .language-name {
-      color: black;
-      display: inline;
+    .dropdown-button {
+      display: inline-block;
+      width: 100%;
+      .language-name {
+        color: black;
+        position: relative;
+        margin-bottom: 0;
+        font-size: 12px;
+        line-height: 16px;
+        padding: 8px 0 8px 28px;
+        cursor: pointer;
+        &:before {
+          content: '';
+          width: 14px;
+          height: 14px;
+          border: 1px solid #BDBDBD;
+          position: absolute;
+          left: 0;
+          border-radius: 2px;
+        }
+      }
+      input {
+        display: none;
+      }
+      input:checked + .language-name:before {
+        background: url('../assets/check.svg') no-repeat center center;
+        border-color: transparent;
+      }
     }
-    .dropdown-button{
-      padding: 15px;
-      display: inline; 
-    }
+
+    
+    
 </style>
