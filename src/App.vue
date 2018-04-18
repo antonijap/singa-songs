@@ -64,12 +64,19 @@
 			</div>
 		</div>
 
-		<div class="row">
+		<div class="row d-flex justify-content-between">
 			<div class="col-auto">
-				<DropdownButton :title="'Languages'" :filterData="languages" filterDataType="language"/>
+				<div class="row">
+					<div class="col-auto">
+						<DropdownButton :title="'Languages'" :filterData="languages" filterDataType="language"/>
+					</div>
+					<div class="col-auto">
+						<DropdownButton :title="'Genres'" :filterData="genres" filterDataType="genre"/>
+					</div>					
+				</div>
 			</div>
 			<div class="col-auto">
-				<DropdownButton :title="'Genres'" :filterData="genres" filterDataType="genre"/>
+				<SortButton />
 			</div>
 		</div>
 
@@ -101,8 +108,9 @@
   import Song from './components/Song'
   import DropdownButton from './components/DropdownButton'
   import FilterCheckbox from './components/FilterCheckbox'
-	import SelectedFilter from './components/SelectedFilter'
-	import LoadingSpinner from './components/LoadingSpinner'
+  import SelectedFilter from './components/SelectedFilter'
+  import LoadingSpinner from './components/LoadingSpinner'
+  import SortButton from './components/SortButton'
   import Axios from 'axios'
   
   const requestSongsFromApi = (filters) => {
@@ -123,9 +131,10 @@
     components: {
       Song,
       DropdownButton,
-		SelectedFilter,
+	  SelectedFilter,
       FilterCheckbox,
-      LoadingSpinner
+	  LoadingSpinner,
+	  SortButton
     },
     data () {
 
