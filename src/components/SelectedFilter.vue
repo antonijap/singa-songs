@@ -55,6 +55,7 @@ export default {
             vertical-align: middle;
             line-height: 15px;
             text-align: center;
+            top: -2px;
           }
         }
         &:not(:last-child) {

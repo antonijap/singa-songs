@@ -71,8 +71,5 @@ export default {
         background: url('../assets/check.svg') no-repeat center center;
         border-color: transparent;
       }
-    }
-
-    
-    
+    } 
 </style>
