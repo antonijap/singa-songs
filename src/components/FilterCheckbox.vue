@@ -1,7 +1,7 @@
 <template>
 <div class="dropdown-button">
     <input type="checkbox" v-model="data.active"/>
-    <label class="language-name" @click="setValue()"> {{ data.name }}</label>
+    <label class="language-name" v-bind:class="{ active: data.active }" @click="setValue()"> {{ data.name }}</label>
 </div>
 </template>
 
@@ -25,7 +25,6 @@ export default {
         key: this.data.id,
         active: !this.data.active
       })
-
     }
   }
 
@@ -44,11 +43,14 @@ export default {
     .dropdown-button {
       display: inline-block;
       width: 100%;
+      .active {
+        font-weight: 500;
+      }
       .language-name {
         color: black;
         position: relative;
         margin-bottom: 0;
-        font-size: 12px;
+        font-size: 16px;
         line-height: 16px;
         padding: 8px 0 8px 28px;
         cursor: pointer;

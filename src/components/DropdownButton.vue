@@ -111,9 +111,10 @@ export default {
     }
 
     .dropdown-options {
+      box-shadow: #00000080 0px 5px 8px;
       background: white;
       position: absolute;
-      width: 385px;
+      width: 485px;
       border-radius: 8px;
       margin-top: 8px;
       z-index: 9999;
