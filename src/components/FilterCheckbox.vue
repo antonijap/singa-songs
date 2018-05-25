@@ -1,7 +1,7 @@
 <template>
 <div class="dropdown-button">
     <input type="checkbox" v-model="data.active"/>
-    <label class="language-name" v-bind:class="{ active: data.active }" @click="setValue()"> {{ data.name }}</label>
+    <label class="language-name" v-bind:class="{ 'active': data.active, 'side-bar':sideBar }" @click="setValue()"> {{ data.name }}</label>
 </div>
 </template>
 
@@ -17,6 +17,10 @@ export default {
       type: String,
       required: true
     },
+     sideBar: {
+      type: Boolean,
+      required: false
+    }
   },
   methods: {
     setValue (){
@@ -32,6 +36,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
     .btn {
         border-radius: 100px;
         background: #333333;
@@ -63,6 +68,9 @@ export default {
           left: 0;
           border-radius: 2px;
         }
+      }
+      .side-bar {
+        color:white;
       }
       input {
         display: none;

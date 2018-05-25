@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-
+  		<button @click="sideBarActivated=!sideBarActivated" style="color:grey;background-color:black; border:none; position:absolute;left:0;">'</button>
 		<div class="row nav d-flex justify-content-between align-items-center">
 			<div class="col-auto">
 				<svg width="323" height="69" viewBox="0 0 323 69" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -63,9 +63,9 @@
 				</svg>
 			</div>
 		</div>
-
-		<div class="row d-flex justify-content-between">
-			<div class="col-auto">
+		
+		<div style="height:50px;"  :class="{'align-right':!sideBarActivated, 'row d-flex justify-content-between':!sideBarActivated, '100-width':sideBarActivated }">
+			<div class="col-auto" v-if="!sideBarActivated">
 				<div class="row">
 					<div class="col-auto">
 						<DropdownButton :title="'Languages'" :filterData="languages" filterDataType="language"/>
@@ -75,16 +75,18 @@
 					</div>					
 				</div>
 			</div>
-			<div class="col-auto">
-				<SortButton />
+			<div class="row" :class="{'float-right':sideBarActivated,'col-auto':!sideBarActivated}">
+				<p class="sort-title">Sort By:</p>
+				<SortDropdown :title="selectedSorting[0].name" :filterData="sort" filterDataType="sort"/>
 			</div>
 		</div>
 
-		<div class="row filters">
-			<div class="col-12"><div class="separator"></div></div>
+		<div class="row filters">	
+			<div class="col-12 separator"></div>
 			<div class="col-auto">
 				<SelectedFilter  v-for="lang in selectedLanguages" :dataObj="lang" :key="lang.id" @click="deleteFilter('language', lang.id)" dataType="language"/>
 				<SelectedFilter  v-for="genre in selectedGenres" :dataObj="genre" :key="genre.id" dataType="genre"/>
+				<SelectedFilter  v-for="sorting in selectedSorting" :dataObj="sorting" :key="sorting.id" dataType="sort"/>
 			</div>
 		</div>
 
@@ -92,16 +94,39 @@
   	<!-- this iterates the languages and passes each as an prop for a FilterCheckbox component -->
 		
 	</div>
+	<div class="row">
+		<div v-if="sideBarActivated" class="col-2" style="background-color:#141414;">
+			<div class="dropdown-options" v-bind:class=" {'left-absolute': filterDataType === 'sort'}" >
+				<p>Languages</p>
+	        	<div class="left-check-boxes">
+		        	<div class="col-12" v-for="item in languages">
+		          		<div>
+		            		<FilterCheckbox sideBar="true" :data="item" :key="item.id" dataType="language"/>
+		          		</div>
+		        	</div>
+	        	</div>
+	        	<p>Genres</p>
+	        	<div class="left-check-boxes">
+		        	<div class="col-12" v-for="item in genres">
+		          		<div>
+		            		<FilterCheckbox sideBar="true" :data="item" :key="item.id" dataType="genre"/>
+		          		</div>
+		        	</div>
+	        	</div>
+	      	</div>
+		</div>
+		<div :class="{'col-10':sideBarActivated}">
 		<LoadingSpinner v-if="loading"/>
-		
-	  <div v-else class="row songs">
-	    	<div v-if="songs.length >0" class="col-6 col-sm-4 col-md-3 col-lg-2 list-complete-item" v-for="song in songs" :key="song.id">
+		  <div v-else class="row songs">
+		    	<div v-if="songs.length >0" class="col-6 col-sm-4 col-md-3 col-lg-2 list-complete-item" v-for="song in songs" :key="song.id">
 
-	    	<!-- this iterates the songs and passes props for the Song component -->
-		  		<Song :title="song.name" :artist="song.artists[0].name" :image="song.image.small.url" :genre=	"song.genres.map(genre => genre.name).join(', ')"/> 
+		    	<!-- this iterates the songs and passes props for the Song component -->
+			  		<Song :title="song.name" :artist="song.artists[0].name" :image="mapImages(song)" :genre=	"song.genres.map(genre => genre.name).join(', ')"/> 
+		  		</div>
 	  		</div>
-  </div>
-  </div>
+	  	</div>
+	  </div>
+	  </div>
 </template>
 
 <script>
@@ -111,7 +136,11 @@
   import SelectedFilter from './components/SelectedFilter'
   import LoadingSpinner from './components/LoadingSpinner'
   import SortButton from './components/SortButton'
+  import SortDropdown from './components/SortDropdown'
+  
   import Axios from 'axios'
+
+
   
   const requestSongsFromApi = (filters) => {
 	//fancy javascript one liners
@@ -134,17 +163,19 @@
 	  SelectedFilter,
       FilterCheckbox,
 	  LoadingSpinner,
-	  SortButton
+	  SortButton,
+	  SortDropdown
     },
     data () {
 
     	return {
+    		sideBarActivated: false,
     		loading: false,
     		songs: [],
     		filters: {
     			genre: [],
     			language:[],
-    			sort: ["top"]
+    			sort: []
     		},
     		languages: {
     			"en":{	
@@ -193,6 +224,29 @@
     				active: false
     			}
     		},
+    		sort: {
+    			"top":{	
+    				id:"top",
+    				name: "Popularity",
+    				active: false
+    			},
+    			"latest":{	
+    				id:"latest",
+    				name: "Release Date",
+    				active: false
+    			},
+    			"-name":{	
+    				id:"-name",
+    				name: "Alphabetical (Z-A)",
+    				active: false
+    			},
+    			"name":{	
+    				id:"name",
+    				name: "Alphabetical (A-Z)",
+    				active: true
+    			}
+    			
+    		},
     		genres : {}		
   		}
     },
@@ -214,7 +268,19 @@
 
   		//a listener is set for the $emit event in FilterCheckbox.vue
   		this.$root.$on("setFilter", (value) => {
-  			const obj = value.type === "genre" ? this.genres : this.languages
+  			var obj;
+
+  			switch (value.type) {
+			    case "genre":
+			        obj = this.genres;
+			        break;
+			    case "language":
+			        obj = this.languages;
+			        break;
+			    case "sort":
+			        obj = this.sort;
+			        break;
+			}
   			//set the value of language object that was emitted
   			obj[value.key].active  = value.active
 
@@ -228,6 +294,24 @@
 		  		this.loading = false
 		  	})
   		})
+  		this.$root.$on("setSort", (value) => {
+  			this.filters.sort = [value]
+  			Object.keys(this.sort).forEach((sortKey) => {
+  				if(sortKey===value){
+  					this.sort[sortKey]["active"] = true
+  				} else {
+  					this.sort[sortKey]["active"] = false
+  				}
+  				
+  			})
+  			//do new request
+  			this.loading = true
+  			requestSongsFromApi(this.filters).then(res=>{
+		  		this.songs = res.data.results
+		  		this.loading = false
+		  	})
+  		})
+
 
 
   	},
@@ -238,9 +322,19 @@
   		selectedLanguages () {
   			return Object.keys(this.languages).map(key => this.languages[key]).filter(language => language.active)
   		},
+  		selectedSorting () {
+  			return Object.keys(this.sort).map(key => this.sort[key]).filter(sorting => sorting.active)
+  		},
 
   	},
     methods: {
+    	 mapImages: (item) => {
+		    var im = item.image
+		    var imageUrl = (im && im.medium && im.medium.url) ?
+		    im.medium.url : (im && im.small && im.small.url) ? im.small.url : (im && im.tiny && im.tiny.url) ? im.tiny.url : ""
+		 
+		    return imageUrl
+		},
     	requestSongs () {
     		this.loading = true
 				requestSongsFromApi(this.filters).then(res=>{
@@ -262,11 +356,25 @@
 		.songs{
 			z-index: 1;
 		}
+		.left-check-boxes {
+			height: 380px;
+			overflow: scroll;
+			display: inline;
+
+		}
+		.align-right {
+			right: 0;
+			text-align:right;
+			align:right;
+		}
 		.checkbox-div {
 			margin: 30px 0 30px 0;
 		}
 		.list-complete-item {
 			transition: transform 1s;
+		}
+		.100-width {
+			width: 100%;
 		}
 		.list-complete-enter{
 			transform: scaleX(0);
@@ -279,6 +387,7 @@
 		  width: 0px;
 		  transition: transform 1s, opacity 1s;
 		}
+		
 		.list-complete-leave, list-complete-enter-to{
 			opacity: 1;
 		  transition: transform 1s, opacity 1s;
@@ -289,9 +398,18 @@
 		.separator {
 			border-top: 1px solid #333333;
 			padding-top: 1em;
+			width: 100%;
+			float:block;
+		}
+		.float-right{
+			float:right;
 		}
 		.nav {
 			margin-bottom: 3em;
+		}
+		.sort-title{
+			padding-top: 10px;
+			padding-right: 10px;
 		}
 	</style>
 

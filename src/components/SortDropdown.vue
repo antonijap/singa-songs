@@ -1,6 +1,6 @@
 <template>
 
-<div v-click-outside="setUnactive">
+<div v-click-outside="setUnactive" >
   <div class="dropdown-button">
     <button @click="active = !active; emitActive()"  class="btn btn-default" type="submit" v-bind:class="{ active: active }">
 	  <span> {{ title }} </span> <i class="fas" :class=" active ? 'fa-chevron-up' : 'fa-chevron-down' "></i>
@@ -9,12 +9,11 @@
   </div>
   <transition name="fadein">
     <div class="container" v-if="active" style="position: relative;" >
-      <div class="row dropdown-options" v-bind:class=" {'left-absolute': filterDataType === 'sort'}" >
-        <div class="col-4" v-for="item in filterData">
-          <div class="form-group">
-            <FilterCheckbox  :data="item" :key="item.id" dataType="language" style="color:white;"/>
-          </div>
-        </div>
+      <div class="dropdown-options left-absolute" >
+        
+          <button class="sort-button" v-for="item in filterData" :disabled="item.active" @click="emitSort(item.id);active=!active;" > {{item.name}}
+          </button>            
+            
       </div>
     </div>
   </transition>
@@ -28,7 +27,7 @@
 import FilterCheckbox from './FilterCheckbox.vue'
 
 export default {
-  name: 'DropdownButton',
+  name: 'SortDropdown',
   components: {
     FilterCheckbox
   },
@@ -45,6 +44,7 @@ export default {
       type: String,
       required: true
     }
+
   },
   data () {
     return {
@@ -66,6 +66,9 @@ export default {
    }) 
   },
   methods :{
+    emitSort(id){
+      this.$root.$emit("setSort", id)
+    },
     emitActive(){
         //emit to other dropdown elements that a element has been activated
        this.$root.$emit("activeDropDownChanged", this.filterDataType)
@@ -102,6 +105,8 @@ export default {
       border: none;
       padding: 8px 16px;
       position: relative;
+        width: 200px;
+
       span {
         padding-left: 8px;
       }
@@ -109,16 +114,36 @@ export default {
         padding: 0 8px;
       }
     }
-
+    .sort-button {
+      width : 100%;
+      height: 43px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      margin: 0;
+      padding: 0;
+      &:hover {
+        background: #F2F2F2;
+      }
+      &:disabled {
+        background: none;
+      }
+    }
+    .dropdown-button {
+      right: 0;
+      width: 200px;
+    }
     .dropdown-options {
       box-shadow: #00000080 0px 5px 8px;
       background: white;
       position: absolute;
-      width: 485px;
-      border-radius: 8px;
+      border-radius: 4px;
+      margin-left: 0;
+      margin-right: 0;
+      padding: 0;
       margin-top: 8px;
       z-index: 9999;
-      padding: 12px;
+      right: 0;
     }  
   .left-absolute {
     right: 0;
