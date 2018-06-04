@@ -76,7 +76,7 @@
 				</div>
 			</div>
 			<div class="row" :class="{'float-right':sideBarActivated,'col-auto':!sideBarActivated}">
-				<p class="sort-title">Sort By:</p>
+				<p class="sort-title">Järjestä:</p>
 				<SortDropdown :title="selectedSorting[0].name" :filterData="sort" filterDataType="sort"/>
 			</div>
 		</div>
@@ -227,22 +227,22 @@
     		sort: {
     			"top":{	
     				id:"top",
-    				name: "Popularity",
+    				name: "Suosituin",
     				active: false
     			},
     			"latest":{	
     				id:"latest",
-    				name: "Release Date",
+    				name: "Tuorein",
     				active: false
     			},
     			"-name":{	
     				id:"-name",
-    				name: "Alphabetical (Z-A)",
+    				name: "Nimi (Z-A)",
     				active: false
     			},
     			"name":{	
     				id:"name",
-    				name: "Alphabetical (A-Z)",
+    				name: "Nimi (A-Z)",
     				active: true
     			}
     			

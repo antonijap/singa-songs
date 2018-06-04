@@ -51,12 +51,6 @@ export default {
       active: false
     }
   },
-  // computed : {
-  //   dataType () {
-  //     console.log(this.languages , this.genres )
-  //     return this.languages | this.genres 
-  //   }
-  // },
   created () {
    this.$root.$on("activeDropDownChanged", (type) => {
     //emit to other dropdown elements for active emits
