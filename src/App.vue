@@ -68,10 +68,10 @@
 			<div class="col-auto" v-if="!sideBarActivated">
 				<div class="row">
 					<div class="col-auto">
-						<DropdownButton :title="'Languages'" :filterData="languages" filterDataType="language"/>
+						<DropdownButton :title="'Kieli'" :filterData="languages" filterDataType="language"/>
 					</div>
 					<div class="col-auto">
-						<DropdownButton :title="'Genres'" :filterData="genres" filterDataType="genre"/>
+						<DropdownButton :title="'Tyyli'" :filterData="genres" filterDataType="genre"/>
 					</div>					
 				</div>
 			</div>
@@ -97,7 +97,7 @@
 	<div class="row">
 		<div v-if="sideBarActivated" class="col-2" style="background-color:#141414;">
 			<div class="dropdown-options" v-bind:class=" {'left-absolute': filterDataType === 'sort'}" >
-				<p>Languages</p>
+				<p>Kieli</p>
 	        	<div class="left-check-boxes">
 		        	<div class="col-12" v-for="item in languages">
 		          		<div>
@@ -105,7 +105,7 @@
 		          		</div>
 		        	</div>
 	        	</div>
-	        	<p>Genres</p>
+	        	<p>Järjestä</p>
 	        	<div class="left-check-boxes">
 		        	<div class="col-12" v-for="item in genres">
 		          		<div>
